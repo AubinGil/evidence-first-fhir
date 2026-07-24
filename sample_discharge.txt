@@ -1,0 +1,7 @@
+Patient: Jane Doe, female, date of birth 1960-04-12.
+Admitted 2026-07-10 and discharged 2026-07-12.
+Type 2 diabetes mellitus.
+HbA1c was 8.2 percent on 2026-07-11.
+Metformin 500 mg by mouth twice daily was continued.
+No evidence of pneumonia.
+Appendectomy performed in 1998.

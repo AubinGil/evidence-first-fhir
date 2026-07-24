@@ -1,0 +1,63 @@
+{
+  "id": "section-header-trap",
+  "axis": "structure-hallucination",
+  "description": "Modeled on an observed MIMIC failure: section headers must not become facts, and performed procedures must not be marked absent. Gender is never inferred from a name.",
+  "review_status": "draft",
+  "note": "Allergies:\nNo Known Allergies / Adverse Drug Reactions\n\nMajor Surgical or Invasive Procedure:\nNone\n\nHistory of Present Illness:\nJohn Smith presented with worsening ascites and underwent paracentesis on hospital day 2.",
+  "patient": {"full_name": "John Smith", "birth_date": null, "gender": null},
+  "encounter": {"admit_date": null, "discharge_date": null},
+  "facts": [
+    {
+      "match_terms": ["allerg"],
+      "category": "allergy",
+      "name": "no known allergies",
+      "assertion": "absent",
+      "temporality": "current",
+      "clinical_status": "unknown",
+      "experiencer": "patient",
+      "date": null,
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "No Known Allergies / Adverse Drug Reactions"
+    },
+    {
+      "match_terms": ["ascites"],
+      "category": "condition",
+      "name": "ascites",
+      "assertion": "present",
+      "temporality": "current",
+      "clinical_status": "active",
+      "experiencer": "patient",
+      "date": null,
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "worsening ascites"
+    },
+    {
+      "match_terms": ["paracentesis"],
+      "category": "procedure",
+      "name": "paracentesis",
+      "assertion": "present",
+      "temporality": "current",
+      "clinical_status": "completed",
+      "experiencer": "patient",
+      "date": null,
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "underwent paracentesis on hospital day 2"
+    }
+  ],
+  "forbidden": [
+    {"match_terms": ["major surgical"], "reason": "section header, not a clinical fact"},
+    {"match_terms": ["invasive procedure"], "reason": "section header, not a clinical fact"}
+  ]
+}

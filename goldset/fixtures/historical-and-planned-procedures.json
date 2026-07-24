@@ -1,0 +1,59 @@
+{
+  "id": "historical-and-planned-procedures",
+  "axis": "temporality",
+  "description": "Remote procedures are historical/completed with their stated year; future procedures are planned/planned with no invented date.",
+  "review_status": "draft",
+  "note": "He underwent an appendectomy in 1998 and a cholecystectomy in 2010. A screening colonoscopy is planned for next month.",
+  "patient": {"full_name": null, "birth_date": null, "gender": "male"},
+  "encounter": {"admit_date": null, "discharge_date": null},
+  "facts": [
+    {
+      "match_terms": ["appendectomy"],
+      "category": "procedure",
+      "name": "appendectomy",
+      "assertion": "present",
+      "temporality": "historical",
+      "clinical_status": "completed",
+      "experiencer": "patient",
+      "date": "1998",
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "appendectomy in 1998"
+    },
+    {
+      "match_terms": ["cholecystectomy"],
+      "category": "procedure",
+      "name": "cholecystectomy",
+      "assertion": "present",
+      "temporality": "historical",
+      "clinical_status": "completed",
+      "experiencer": "patient",
+      "date": "2010",
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "cholecystectomy in 2010"
+    },
+    {
+      "match_terms": ["colonoscopy"],
+      "category": "procedure",
+      "name": "screening colonoscopy",
+      "assertion": "present",
+      "temporality": "planned",
+      "clinical_status": "planned",
+      "experiencer": "patient",
+      "date": null,
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "screening colonoscopy is planned for next month"
+    }
+  ]
+}

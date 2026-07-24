@@ -1,0 +1,59 @@
+{
+  "id": "demographics-and-dates",
+  "axis": "demographics",
+  "description": "Demographics and encounter dates must be copied exactly; gender is not stated and must not be inferred from the name. The echo date attaches to both the procedure and the measured ejection fraction.",
+  "review_status": "draft",
+  "note": "Robert Jones, born 1961-04-23, was admitted on 2026-06-30 and discharged on 2026-07-05. Discharge diagnosis: acute decompensated heart failure. An echocardiogram on 2026-07-01 showed an ejection fraction of 35 percent.",
+  "patient": {"full_name": "Robert Jones", "birth_date": "1961-04-23", "gender": null},
+  "encounter": {"admit_date": "2026-06-30", "discharge_date": "2026-07-05"},
+  "facts": [
+    {
+      "match_terms": ["heart failure"],
+      "category": "condition",
+      "name": "acute decompensated heart failure",
+      "assertion": "present",
+      "temporality": "current",
+      "clinical_status": "active",
+      "experiencer": "patient",
+      "date": null,
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "acute decompensated heart failure"
+    },
+    {
+      "match_terms": ["echocardiogram"],
+      "category": "procedure",
+      "name": "echocardiogram",
+      "assertion": "present",
+      "temporality": "current",
+      "clinical_status": "completed",
+      "experiencer": "patient",
+      "date": "2026-07-01",
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "echocardiogram on 2026-07-01"
+    },
+    {
+      "match_terms": ["ejection fraction"],
+      "category": "observation",
+      "name": "ejection fraction",
+      "assertion": "present",
+      "temporality": "current",
+      "clinical_status": "unknown",
+      "experiencer": "patient",
+      "date": "2026-07-01",
+      "value": 35,
+      "unit": "percent",
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "ejection fraction of 35 percent"
+    }
+  ]
+}

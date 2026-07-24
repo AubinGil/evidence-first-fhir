@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CandidateFact",
+  "type": "object",
+  "required": ["subject", "category", "value", "evidence", "pipeline_version", "review_status"],
+  "properties": {
+    "subject": {"type": "string"},
+    "category": {"type": "string"},
+    "value": {"type": "string"},
+    "pipeline_version": {"type": "string"},
+    "review_status": {"enum": ["pending", "approved", "rejected", "quarantined"]},
+    "evidence": {
+      "type": "object",
+      "required": ["document_sha256", "start", "end", "quote"],
+      "properties": {
+        "document_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "start": {"type": "integer", "minimum": 0},
+        "end": {"type": "integer", "minimum": 0},
+        "quote": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

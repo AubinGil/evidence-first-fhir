@@ -1,0 +1,62 @@
+{
+  "id": "allergy-versus-tolerance",
+  "axis": "allergy",
+  "description": "A tolerated drug class and an explicit no-known-allergies statement are assertion=absent allergies; the reaction description is not a separate condition.",
+  "review_status": "draft",
+  "note": "Allergies: penicillin, which causes a rash. The patient tolerates cephalosporins without any reaction. There are no known food allergies.",
+  "patient": {"full_name": null, "birth_date": null, "gender": null},
+  "encounter": {"admit_date": null, "discharge_date": null},
+  "facts": [
+    {
+      "match_terms": ["penicillin"],
+      "category": "allergy",
+      "name": "penicillin",
+      "assertion": "present",
+      "temporality": "current",
+      "clinical_status": "active",
+      "experiencer": "patient",
+      "date": null,
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "penicillin, which causes a rash"
+    },
+    {
+      "match_terms": ["cephalosporin"],
+      "category": "allergy",
+      "name": "cephalosporins",
+      "assertion": "absent",
+      "temporality": "current",
+      "clinical_status": "unknown",
+      "experiencer": "patient",
+      "date": null,
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "tolerates cephalosporins without any reaction"
+    },
+    {
+      "match_terms": ["food"],
+      "category": "allergy",
+      "name": "food allergies",
+      "assertion": "absent",
+      "temporality": "current",
+      "clinical_status": "unknown",
+      "experiencer": "patient",
+      "date": null,
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "no known food allergies"
+    }
+  ],
+  "forbidden": [
+    {"match_terms": ["rash"], "reason": "the rash is the allergy reaction description, not a separate patient condition"}
+  ]
+}

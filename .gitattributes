@@ -1,0 +1,14 @@
+# Normalize to LF in the repository. The gold set embeds a SHA-256 over its
+# fixture files, so line endings must not vary by platform.
+* text=auto eol=lf
+
+# Gold set fixtures and version are checksummed - always LF, never converted.
+goldset/** text eol=lf
+schemas/** text eol=lf
+synthetic_data/** text eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.docx binary
+*.pdf binary

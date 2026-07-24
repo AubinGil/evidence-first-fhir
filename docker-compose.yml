@@ -1,0 +1,15 @@
+services:
+  api:
+    image: python:3.11-slim
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace:ro
+    environment:
+      CLINICAL_FHIR_SYNTHETIC_ONLY: "true"
+      CLINICAL_FHIR_FHIR_READ_ONLY: "true"
+      CLINICAL_FHIR_ALLOW_WRITES: "false"
+      CLINICAL_FHIR_EXTERNAL_TELEMETRY: "false"
+    command: ["python", "-m", "pipelines.ingestion.demo"]
+    read_only: true
+    security_opt:
+      - no-new-privileges:true

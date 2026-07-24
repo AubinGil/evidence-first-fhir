@@ -1,0 +1,50 @@
+{
+  "resourceType": "Patient",
+  "id": "synthetic-demo-patient-001",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/Patient"
+    ],
+    "tag": [
+      {
+        "system": "https://example.invalid/data-classification",
+        "code": "synthetic-only",
+        "display": "Wholly synthetic test fixture"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Wholly synthetic patient fixture for a Terraform storage lab. Not derived from a real person or clinical record.</div>"
+  },
+  "identifier": [
+    {
+      "system": "https://example.invalid/synthetic-patient-ids",
+      "value": "SYNTH-0001"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "use": "official",
+      "family": "Example",
+      "given": [
+        "Synthetic"
+      ]
+    }
+  ],
+  "gender": "unknown",
+  "birthDate": "2000-01-01",
+  "address": [
+    {
+      "use": "home",
+      "line": [
+        "123 Example Lane"
+      ],
+      "city": "Testville",
+      "state": "ON",
+      "postalCode": "A1A 1A1",
+      "country": "CA"
+    }
+  ]
+}

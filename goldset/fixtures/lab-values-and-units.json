@@ -1,0 +1,60 @@
+{
+  "id": "lab-values-and-units",
+  "axis": "values-and-units",
+  "description": "Laboratory observations must keep exact numeric values, units (percent and % are equivalent), and the shared collection date. Hemoglobin and hemoglobin A1c must not be conflated.",
+  "review_status": "draft",
+  "note": "Laboratory results from 2026-07-11: potassium 3.1 mmol/L, hemoglobin 9.4 g/dL, and hemoglobin A1c 8.2 percent.",
+  "patient": {"full_name": null, "birth_date": null, "gender": null},
+  "encounter": {"admit_date": null, "discharge_date": null},
+  "facts": [
+    {
+      "match_terms": ["potassium"],
+      "category": "observation",
+      "name": "potassium",
+      "assertion": "present",
+      "temporality": "current",
+      "clinical_status": "unknown",
+      "experiencer": "patient",
+      "date": "2026-07-11",
+      "value": 3.1,
+      "unit": "mmol/L",
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "potassium 3.1 mmol/L"
+    },
+    {
+      "match_terms": ["hemoglobin"],
+      "exclude_terms": ["a1c"],
+      "category": "observation",
+      "name": "hemoglobin",
+      "assertion": "present",
+      "temporality": "current",
+      "clinical_status": "unknown",
+      "experiencer": "patient",
+      "date": "2026-07-11",
+      "value": 9.4,
+      "unit": "g/dL",
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "hemoglobin 9.4 g/dL"
+    },
+    {
+      "match_terms": ["a1c"],
+      "category": "observation",
+      "name": "hemoglobin A1c",
+      "assertion": "present",
+      "temporality": "current",
+      "clinical_status": "unknown",
+      "experiencer": "patient",
+      "date": "2026-07-11",
+      "value": 8.2,
+      "unit": "percent",
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "hemoglobin A1c 8.2 percent"
+    }
+  ]
+}

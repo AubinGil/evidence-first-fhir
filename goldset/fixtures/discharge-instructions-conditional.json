@@ -1,0 +1,59 @@
+{
+  "id": "discharge-instructions-conditional",
+  "axis": "conditional-instructions",
+  "description": "Return precautions are hypothetical: the PRN medication and its trigger symptoms are assertion=conditional and must never surface as present conditions.",
+  "review_status": "draft",
+  "note": "Discharge instructions: Take nitroglycerin 0.4 mg under the tongue as needed if chest pain recurs. Return to the emergency department for a fever above 38.5 C.",
+  "patient": {"full_name": null, "birth_date": null, "gender": null},
+  "encounter": {"admit_date": null, "discharge_date": null},
+  "facts": [
+    {
+      "match_terms": ["nitroglycerin"],
+      "category": "medication",
+      "name": "nitroglycerin",
+      "assertion": "conditional",
+      "temporality": "current",
+      "clinical_status": "active",
+      "experiencer": "patient",
+      "date": null,
+      "value": null,
+      "unit": null,
+      "dose": "0.4 mg",
+      "route": "under the tongue",
+      "frequency": "as needed",
+      "evidence_quote": "Take nitroglycerin 0.4 mg under the tongue as needed if chest pain recurs"
+    },
+    {
+      "match_terms": ["chest pain"],
+      "category": "condition",
+      "name": "chest pain",
+      "assertion": "conditional",
+      "temporality": "unknown",
+      "clinical_status": "unknown",
+      "experiencer": "patient",
+      "date": null,
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "if chest pain recurs"
+    },
+    {
+      "match_terms": ["fever"],
+      "category": "condition",
+      "name": "fever",
+      "assertion": "conditional",
+      "temporality": "unknown",
+      "clinical_status": "unknown",
+      "experiencer": "patient",
+      "date": null,
+      "value": null,
+      "unit": null,
+      "dose": null,
+      "route": null,
+      "frequency": null,
+      "evidence_quote": "a fever above 38.5 C"
+    }
+  ]
+}

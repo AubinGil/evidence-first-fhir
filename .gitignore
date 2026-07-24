@@ -1,0 +1,44 @@
+# Governed clinical data and generated extraction/review artifacts
+output/
+uploads/
+*.sqlite3
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+kubeconfig*.yaml
+
+# Airflow runtime
+airflow/.env
+airflow/logs/
+
+# Terraform: publish .tf source only, never state, plans, or providers
+.terraform/
+.terraform.tfstate.lock.info
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+tfplan.*
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+
+# Python tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# Local agent/editor state
+.claude/
+.vscode/
+.idea/
