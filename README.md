@@ -3,6 +3,7 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![FHIR R4](https://img.shields.io/badge/HL7-FHIR%20R4-E34A6F)](https://hl7.org/fhir/R4/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Tests](https://github.com/AubinGil/evidence-first-fhir/actions/workflows/tests.yml/badge.svg)](https://github.com/AubinGil/evidence-first-fhir/actions/workflows/tests.yml)
 
 An evidence-first reference pipeline for turning clinical documents into **reviewable FHIR R4 candidate resources**. Source documents are untrusted, extracted facts require provenance, and persistence is disabled by default.
 
