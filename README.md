@@ -1,4 +1,8 @@
-# Clinical FHIR Agent
+# Evidence-First FHIR
+
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/)
+[![FHIR R4](https://img.shields.io/badge/HL7-FHIR%20R4-E34A6F)](https://hl7.org/fhir/R4/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 An evidence-first reference pipeline for turning clinical documents into **reviewable FHIR R4 candidate resources**. Source documents are untrusted, extracted facts require provenance, and persistence is disabled by default.
 
@@ -23,7 +27,10 @@ The design goal is that every proposed resource can answer three questions: whic
 ## Quick start
 
 ```powershell
+git clone https://github.com/AubinGil/evidence-first-fhir.git
+Set-Location evidence-first-fhir
 Copy-Item .env.example .env
+python -m pip install -e ".[dev]"
 python -m pipelines.ingestion.demo
 python -m pytest
 ```
@@ -104,6 +111,10 @@ No credentialed dataset is used, referenced, or required. The gold set is synthe
 - [Model card](MODEL_CARD.md) — intended use, prohibited use, and limitations
 - [Security policy](SECURITY.md) — reporting and non-negotiable deployment controls
 - [Contributing](CONTRIBUTING.md) — the safety posture contributions must preserve
+
+## Development tools
+
+This project was developed with assistance from Claude and Codex for code review, documentation, and implementation support. Architecture, safety decisions, validation, and publication remain the responsibility of the repository owner.
 
 ## License
 
