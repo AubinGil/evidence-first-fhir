@@ -87,7 +87,7 @@ Bundle QA is review-only: it summarizes the assembled bundle and states its own 
 
 | Path | Contents |
 |---|---|
-| `pipelines/` | Ingestion, de-identification, extraction, grounding, FHIR mapping, care gaps |
+| `pipelines/` | Ingestion, grounding, FHIR mapping — plus de-identification, extraction, and care gaps as documented interfaces, not implementations |
 | `policies/` | Persistence authorization (write guard) |
 | `providers/` | Provider interfaces — documentation until explicitly implemented and configured |
 | `goldset/` | Frozen synthetic evaluation fixtures |
@@ -97,7 +97,7 @@ Bundle QA is review-only: it summarizes the assembled bundle and states its own 
 | `terminology/` | Terminology source notes |
 | `docs/` | Architecture and threat model |
 
-Provider folders are interfaces and documentation until explicitly implemented and configured. No network calls are made by the synthetic demo.
+Provider folders are interfaces and documentation until explicitly implemented and configured. The same applies to `pipelines/deidentification/`, `pipelines/extraction/`, and `pipelines/care_gaps/`: each documents a required interface and its validation burden, and each contains a README rather than code. Only ingestion, grounding, and FHIR mapping execute. No network calls are made by the synthetic demo.
 
 ## Scope
 
