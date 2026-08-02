@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any
 
 from baseline_extraction_test import call_ollama
+from pipelines.grounding import unsupported_value_terms
 
 
 FHIR_BASE = "http://localhost:8080/fhir"
@@ -77,6 +78,14 @@ def grounded_facts(note: str, extraction: dict[str, Any]) -> tuple[list[dict[str
         reasons = []
         if not isinstance(quote, str) or quote not in note:
             reasons.append("evidence quote is not an exact source substring")
+        else:
+            # The quote is evidence; `name` is what the resource is built from.
+            # A model can cite a real span while naming something it does not say.
+            drifted = unsupported_value_terms(str(fact.get("name", "")), quote)
+            if drifted:
+                reasons.append(
+                    f"name asserts terms absent from its evidence quote: {drifted}"
+                )
         if fact.get("experiencer") != "patient":
             reasons.append("fact does not concern the patient")
         if fact.get("assertion") != "present":
