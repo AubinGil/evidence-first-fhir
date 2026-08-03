@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 from baseline_extraction_test import call_ollama
-from pipelines.grounding import unsupported_value_terms
+from pipelines.grounding import quote_is_section_label, unsupported_value_terms
 
 
 FHIR_BASE = "http://localhost:8080/fhir"
@@ -78,6 +78,8 @@ def grounded_facts(note: str, extraction: dict[str, Any]) -> tuple[list[dict[str
         reasons = []
         if not isinstance(quote, str) or quote not in note:
             reasons.append("evidence quote is not an exact source substring")
+        elif quote_is_section_label(quote):
+            reasons.append("evidence quote is a section label, not a clinical statement")
         else:
             # The quote is evidence; `name` is what the resource is built from.
             # A model can cite a real span while naming something it does not say.

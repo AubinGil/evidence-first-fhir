@@ -24,6 +24,22 @@ def unsupported_value_terms(value: str, quote: str) -> list[str]:
     return [term for term in _terms(value) if term not in quote_terms]
 
 
+def quote_is_section_label(quote: str) -> bool:
+    """A quote that terminates at a colon is a section label, not evidence.
+
+    A label states where information would appear; it does not state that any
+    was found. "Major Surgical or Invasive Procedure:" grounds perfectly -- it
+    is a real span, and its terms appear in the fact naming it -- so nothing
+    downstream rejects a section header promoted to a clinical fact.
+
+    Deliberately narrow. Across the gold set no legitimate evidence quote ends
+    with a colon, while bare terms that *are* their own evidence ("HTN",
+    "productive cough") do not, so this does not disturb them. It does not
+    address reaction-as-condition confusion, which is semantic.
+    """
+    return quote.strip().endswith(":")
+
+
 def ground_candidate(*, document: str, subject: str, category: str, value: str, quote: str, confidence: float | None = None) -> CandidateFact | None:
     """Return a pending candidate only when the evidence is an exact document span.
 
@@ -33,6 +49,8 @@ def ground_candidate(*, document: str, subject: str, category: str, value: str, 
     hold, or the candidate is not grounded.
     """
     if not quote or quote not in document:
+        return None
+    if quote_is_section_label(quote):
         return None
     if unsupported_value_terms(value, quote):
         return None
