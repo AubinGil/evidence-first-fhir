@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import os
 import sys
 import time
@@ -199,6 +200,91 @@ TESTS = [
 ]
 
 
+FENCED_JSON = re.compile(r"^\s*```(?:json)?\s*(.*?)\s*```\s*$", re.DOTALL | re.IGNORECASE)
+
+
+class RunawayGeneration(RuntimeError):
+    """The model generated until it ran out of room instead of stopping.
+
+    Ollama reports this as done_reason "length". It matters because the
+    surfaced symptom is a JSONDecodeError on an unterminated string, which
+    reads like a transport or parsing fault and invites a retry. It is
+    neither: the model chose no stopping point, and a retry at temperature 0
+    reproduces it exactly.
+
+    Structured output does not prevent this. FACT_SCHEMA declares facts as an
+    array with no maxItems, so a grammar-constrained decoder can emit elements
+    forever and stay schema-valid the whole way. Declaring maxItems does end
+    the generation -- and produces a parseable document that is still almost
+    entirely one repeated invented fact. Bounding the array removes the crash
+    without removing the failure, so the crash is kept and named instead.
+
+    Measured, qwen3.5:9b on integration-discharge-summary (982-character note,
+    8192 context, temperature 0): 7749 tokens emitted, done_reason "length",
+    57 copies of a fact named "other_allergies". Under maxItems=40 it stops
+    cleanly and returns 39 copies of that same fact. The grounding gate
+    quarantines all 39 -- not on the quote, which is a real span, but on the
+    value check, since "other_allergies" shares no term with its evidence.
+    """
+
+
+def stop_reason_is_exhaustion(envelope: dict[str, Any]) -> bool:
+    return str(envelope.get("done_reason", "")).casefold() == "length"
+
+
+# Chat-template control tokens. These are never content; if one reaches the
+# response body, the template was applied to a state that did not expect it.
+CONTROL_TOKENS = ("<|tool_response>", "<|tool_call>", "<|im_start|>", "<|im_end|>")
+
+
+class ServingArtifact(RuntimeError):
+    """The server, not the model, produced this answer.
+
+    Ollama swaps models to fit the card. The first request to a model that was
+    just reloaded while another was resident can come back with a leaked
+    control token appended to otherwise well-formed JSON.
+
+    Reproduced 3/3 by evicting gemma4:12b, making qwen3.5:9b resident, then
+    calling gemma4:12b: 171 tokens, done_reason "stop", one fact of an expected
+    eighteen, followed by "<|tool_response>". Warm, the identical request is
+    stable at 14 facts and 1839 tokens across four trials.
+
+    This is worth its own error because the failure it produces is
+    indistinguishable from a bad model by its symptom. The recorded failure of
+    gemma4:12b on integration-discharge-summary was this, not the model --
+    JSONDecodeError "Extra data: line 2 column 17 (char 493)", the same
+    character offset the swap reproduces. Scoring a run that contains one
+    measures the serving stack and reports it as a model property.
+
+    Ollama is a workbench, not the production server; vLLM holds one model
+    resident and does not swap. The point is not to fix Ollama but to keep its
+    artifacts out of model comparisons.
+    """
+
+
+def leaked_control_token(text: str) -> str | None:
+    return next((token for token in CONTROL_TOKENS if token in (text or "")), None)
+
+
+def parse_model_json(content: str) -> dict[str, Any]:
+    """Parse a model's JSON reply, tolerating a markdown code fence.
+
+    Ollama's `format` argument is a request, not a guarantee. Some models wrap
+    the object in ```json anyway, and parsing the raw string then fails at
+    character 0 -- which surfaced as a crash rather than a low score, so the
+    model escaped evaluation instead of failing it. A model that emits the
+    wrong shape should be scored on that, not skipped.
+    """
+    candidate = (content or "").strip()
+    fenced = FENCED_JSON.fullmatch(candidate)
+    if fenced:
+        candidate = fenced.group(1)
+    value = json.loads(candidate)
+    if not isinstance(value, dict):
+        raise ValueError(f"extraction must be a JSON object, got {type(value).__name__}")
+    return value
+
+
 def call_ollama(model: str, note: str, timeout: int) -> tuple[dict[str, Any], float]:
     payload = {
         "model": model,
@@ -221,7 +307,22 @@ def call_ollama(model: str, note: str, timeout: int) -> tuple[dict[str, Any], fl
     with urllib.request.urlopen(request, timeout=timeout) as response:
         envelope = json.load(response)
     elapsed = time.monotonic() - started
-    return json.loads(envelope["response"]), elapsed
+    # Ask why generation ended before trying to parse what it produced. Output
+    # that stopped at the context ceiling is truncated whether or not it
+    # happens to parse, and the parse error alone misattributes the cause.
+    if stop_reason_is_exhaustion(envelope):
+        raise RunawayGeneration(
+            f"{model} generated {envelope.get('eval_count')} tokens without stopping "
+            f"(done_reason=length, num_ctx={OLLAMA_NUM_CTX}); output is truncated"
+        )
+    leaked = leaked_control_token(envelope.get("response", ""))
+    if leaked:
+        raise ServingArtifact(
+            f"{model} returned {leaked} in the response body after "
+            f"{envelope.get('eval_count')} tokens; this is an Ollama model-swap "
+            f"artifact, so the answer describes the server and not the model"
+        )
+    return parse_model_json(envelope["response"]), elapsed
 
 
 def fact_matches_name(fact: dict[str, Any], terms: tuple[str, ...]) -> bool:

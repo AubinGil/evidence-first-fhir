@@ -109,6 +109,7 @@ No credentialed dataset is used, referenced, or required. The gold set is synthe
 
 - [Architecture](docs/architecture.md) — trust boundaries and pipeline stages
 - [Threat model](docs/threat-model.md) — assets, threats, controls, and security invariants
+- [OCR is a trust boundary](docs/ocr-trust-boundary.md) — why exact-substring grounding certifies the transcript rather than the document, and what three OCR engines do when they are wrong. Findings only; the measurement harness needs running OCR engines and stays outside this repository
 - [Model card](MODEL_CARD.md) — intended use, prohibited use, and limitations
 - [Security policy](SECURITY.md) — reporting and non-negotiable deployment controls
 - [Contributing](CONTRIBUTING.md) — the safety posture contributions must preserve
