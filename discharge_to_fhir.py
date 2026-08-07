@@ -16,7 +16,11 @@ from pathlib import Path
 from typing import Any
 
 from baseline_extraction_test import call_ollama
-from pipelines.grounding import quote_is_section_label, unsupported_value_terms
+from pipelines.grounding import (
+    names_the_reaction_not_the_substance,
+    quote_is_section_label,
+    unsupported_value_terms,
+)
 
 
 FHIR_BASE = "http://localhost:8080/fhir"
@@ -87,6 +91,14 @@ def grounded_facts(note: str, extraction: dict[str, Any]) -> tuple[list[dict[str
             if drifted:
                 reasons.append(
                     f"name asserts terms absent from its evidence quote: {drifted}"
+                )
+            elif names_the_reaction_not_the_substance(
+                str(fact.get("category", "")), str(fact.get("name", "")), quote
+            ):
+                # Passes the two checks above honestly: the span is real and the
+                # name is in it. The name is on the wrong side of the cause.
+                reasons.append(
+                    "allergy is named for its reaction rather than its substance"
                 )
         if fact.get("experiencer") != "patient":
             reasons.append("fact does not concern the patient")
